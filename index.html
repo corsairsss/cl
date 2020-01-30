@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section class="sect_line">
+      <img
+        class="clock_image"
+        src="tsiferblat-chasof-001.jpg"
+        alt=""
+        width="500px"
+      />
+      <div class="line" id="arrowSecond"></div>
+      <img class="arrow-minutes" src="arrow_minutes.png" alt="" id="arrowMin" />
+      <img class="arrow-hour" src="arrow_minutes.png" alt="" id="arrowHour" />
+    </section>
+    <section class="digital-clock">
+      <span id="hour">00</span>
+      <span>:</span>
+      <span id="minuts">00</span>
+      <span>:</span>
+      <span class="title" id="sec">00</span>
+    </section>
+
+    <script>
+      let interval = +prompt("введіть Значення для 1 секунди:");
+      let today = new Date();
+      let time =
+        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      let arr = time.split(":");
+
+      let sec = arr[2];
+      let min = arr[1];
+      let hour = arr[0];
+      let intervalOfHour = ((min - (min % 12)) / 12) * 6 + hour * 30;
+
+      arrowSecond.style.transform = "rotateZ(" + sec * 6 + "deg)";
+      arrowMin.style.transform = "rotateZ(" + min * 6 + "deg)";
+      arrowHour.style.transform = "rotateZ(" + intervalOfHour + "deg)";
+      if (min < 10) {
+        document.getElementById("minuts").innerHTML = `0${min}`;
+      } else document.getElementById("minuts").innerHTML = min;
+
+      if (hour < 10) document.getElementById("hour").innerHTML = `0${hour}`;
+      else document.getElementById("hour").innerHTML = hour;
+      if (sec < 10) {
+        document.getElementById("sec").innerHTML = `0${sec}`;
+      } else document.getElementById("sec").innerHTML = sec;
+
+      function func() {
+        sec++;
+        if (sec === 60) {
+          sec = 0;
+          min++;
+          arrowMin.style.transform = "rotateZ(" + min * 6 + "deg)";
+          ///
+          if (min === 12 || min === 24 || min === 36 || min === 48) {
+            intervalOfHour = intervalOfHour + 6;
+            arrowHour.style.transform = "rotateZ(" + intervalOfHour + "deg)";
+          }
+          ////
+        }
+        arrowSecond.style.transform = "rotateZ(" + sec * 6 + "deg)";
+
+        if (sec < 10) {
+          document.getElementById("sec").innerHTML = `0${sec}`;
+        } else document.getElementById("sec").innerHTML = sec;
+
+        if (sec === 0) {
+          if (min === 60) {
+            min = 0;
+            hour++;
+            arrowHour.style.transform = "rotateZ(" + hour * 30 + "deg)";
+            intervalOfHour += 6;
+          }
+
+          if (min < 10) {
+            document.getElementById("minuts").innerHTML = `0${min}`;
+          } else document.getElementById("minuts").innerHTML = min;
+        }
+
+        if (min === 0) {
+          if (hour < 10) document.getElementById("hour").innerHTML = `0${hour}`;
+          else document.getElementById("hour").innerHTML = hour;
+        }
+      }
+
+      //
+      // sec += 1;1
+
+      // min += 0.1;
+      // hour += 0.0083;
+      let timerId = setInterval(func, interval);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+.line {
+  width: 4px;
+  height: 210px;
+  background-color: red;
+  transform: rotateZ(0deg);
+  margin: 0 auto;
+
+  transform-origin: bottom;
+}
+.digital-clock {
+  text-align: center;
+}
+span {
+  font-size: 48px;
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+}
+.sect_line {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+}
+.sect_line {
+  position: relative;
+  margin-top: 50px;
+}
+
+.clock_image {
+  position: absolute;
+  top: -35px;
+  left: -2px;
+}
+.arrow-minutes {
+  position: absolute;
+  z-index: 2;
+  width: 40px;
+  top: 18px;
+  left: 230px;
+  transform-origin: bottom;
+  /* transform: rotateZ(50deg); */
+}
+.arrow-hour {
+  position: absolute;
+  z-index: 3;
+  width: 65px;
+  height: 143px;
+  top: 65px;
+  left: 218px;
+  transform-origin: bottom;
+}
+.title {
+  color: red;
+}
