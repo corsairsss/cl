@@ -19,6 +19,7 @@
       <img class="arrow-minutes" src="arrow_minutes.png" alt="" id="arrowMin" />
       <img class="arrow-hour" src="arrow_minutes.png" alt="" id="arrowHour" />
     </section>
+
     <section class="digital-clock">
       <span id="hour">00</span>
       <span>:</span>
@@ -30,71 +31,66 @@
     <script>
       let interval = +prompt("введіть Значення для 1 секунди:");
       let today = new Date();
-      let time =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      let arr = time.split(":");
-
-      let sec = arr[2];
-      let min = arr[1];
-      let hour = arr[0];
-      let intervalOfHour = ((min - (min % 12)) / 12) * 6 + hour * 30;
+      let sec = today.getSeconds();
+      let min = today.getMinutes();
+      let hour = today.getHours();
+      let intervalOfHour = hour * 30 + min / 2;
 
       arrowSecond.style.transform = "rotateZ(" + sec * 6 + "deg)";
       arrowMin.style.transform = "rotateZ(" + min * 6 + "deg)";
       arrowHour.style.transform = "rotateZ(" + intervalOfHour + "deg)";
-      if (min < 10) {
-        document.getElementById("minuts").innerHTML = `0${min}`;
-      } else document.getElementById("minuts").innerHTML = min;
-
-      if (hour < 10) document.getElementById("hour").innerHTML = `0${hour}`;
-      else document.getElementById("hour").innerHTML = hour;
-      if (sec < 10) {
-        document.getElementById("sec").innerHTML = `0${sec}`;
-      } else document.getElementById("sec").innerHTML = sec;
+      document.getElementById("hour").innerHTML = ("0" + hour).slice(-2);
+      document.getElementById("minuts").innerHTML = ("0" + min).slice(-2);
 
       function func() {
         sec++;
-        if (sec === 60) {
-          sec = 0;
-          min++;
+        intervalOfHour += 30 / 3600;
+        arrowHour.style.transform = "rotateZ(" + intervalOfHour + "deg)";
+
+        if (sec === 60 && min != 59) {
+          document.getElementById("minuts").innerHTML = ("0" + ++min).slice(-2);
           arrowMin.style.transform = "rotateZ(" + min * 6 + "deg)";
-          ///
-          if (min === 12 || min === 24 || min === 36 || min === 48) {
-            intervalOfHour = intervalOfHour + 6;
-            arrowHour.style.transform = "rotateZ(" + intervalOfHour + "deg)";
-          }
-          ////
+          sec = 0;
+        } else if (min === 59 && sec === 60) {
+          min = 0;
+          sec = 0;
+          document.getElementById("minuts").innerHTML = ("0" + min).slice(-2);
+          arrowMin.style.transform = "rotateZ(" + min * 6 + "deg)";
+          hour === 23 ? (hour = 0) : (hour += 1);
+          if (hour === 0 || hour === 12) intervalOfHour = 0;
+          document.getElementById("hour").innerHTML = ("0" + hour).slice(-2);
         }
         arrowSecond.style.transform = "rotateZ(" + sec * 6 + "deg)";
-
-        if (sec < 10) {
-          document.getElementById("sec").innerHTML = `0${sec}`;
-        } else document.getElementById("sec").innerHTML = sec;
-
-        if (sec === 0) {
-          if (min === 60) {
-            min = 0;
-            hour++;
-            arrowHour.style.transform = "rotateZ(" + hour * 30 + "deg)";
-            intervalOfHour += 6;
-          }
-
-          if (min < 10) {
-            document.getElementById("minuts").innerHTML = `0${min}`;
-          } else document.getElementById("minuts").innerHTML = min;
-        }
-
-        if (min === 0) {
-          if (hour < 10) document.getElementById("hour").innerHTML = `0${hour}`;
-          else document.getElementById("hour").innerHTML = hour;
-        }
+        document.getElementById("sec").innerHTML = ("0" + sec).slice(-2);
       }
 
-      //
-      // sec += 1;1
+      // function func() {
+      //   sec++;
 
-      // min += 0.1;
-      // hour += 0.0083;
+      //   if (sec === 60 && min != 59) {
+      //     document.getElementById("minuts").innerHTML = ("0" + ++min).slice(-2);
+      //     arrowMin.style.transform = "rotateZ(" + min * 6 + "deg)";
+      //     sec = 0;
+      //     intervalOfHour += 0.5;
+      //     arrowHour.style.transform = "rotateZ(" + intervalOfHour + "deg)";
+      //   } else if (min === 59 && sec === 60) {
+      //     min = 0;
+      //     document.getElementById("minuts").innerHTML = ("0" + min).slice(-2);
+      //     arrowMin.style.transform = "rotateZ(" + min * 6 + "deg)";
+      //     intervalOfHour += 0.5;
+      //     arrowHour.style.transform = "rotateZ(" + intervalOfHour + "deg)";
+      //     sec = 0;
+      //     hour === 23 ? (hour = 0) : (hour += 1);
+
+      //     document.getElementById("hour").innerHTML = ("0" + hour).slice(-2);
+      //     console.log(hour, intervalOfHour);
+      //   }
+
+      //   arrowHour.style.transform = "rotateZ(" + intervalOfHour + "deg)";
+      //   arrowSecond.style.transform = "rotateZ(" + sec * 6 + "deg)";
+      //   document.getElementById("sec").innerHTML = ("0" + sec).slice(-2);
+      // }
+
       let timerId = setInterval(func, interval);
     </script>
   </body>
